@@ -15,10 +15,14 @@ function App() {
   const [numQuestions, setNumQuestions] = useState(0);
   const [difficulty, setDifficulty] = useState("");
 
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+
   const handleStart = (questions: number, level: string) => {
     setNumQuestions(questions);
     setDifficulty(level);
     setQuizStarted(true);
+    setShowResult(false);
     console.log('Start quiz with:', questions, level);
     // fetch quiz questions from API here
   };
@@ -32,15 +36,34 @@ function App() {
     fetchData();
   }, [numQuestions, difficulty]);
 
-  const handleSubmit = (e: React.FormEvent<EventTarget>) => {
+  const handleSubmit = (e: React.FormEvent<EventTarget>, selectedAns: string) => {
     e.preventDefault();
-    if (currentStep !== quiz.length - 1)
+    console.log("Selected Answer:", selectedAns);
+
+
+    // Check if answer is correct
+    if (selectedAns === quiz[currentStep].correct_answer) {
+      setScore((prev) => prev + 1);
+      // console.log("your score is:",score)
+    }
+
+    if (currentStep !== quiz.length - 1) {
       setCurrentStep(++currentStep);
+      console.log("handle submit section, if:  ", currentStep);
+    }
     else {
-      alert("Quiz Done")
+      // alert("Quiz Done! Your score is: " + score + " / " + quiz.length);
+      console.log("handle submit section, else:  ", currentStep);
       setCurrentStep(0);
+      setScore(0);
+      // setQuizStarted(false);//its set there after quiz score
     }
   }
+  const resetQuiz = () => {
+    setQuizStarted(false);
+    setShowResult(false);
+    setScore(0);
+  };
 
   if (quizStarted && !quiz.length)
     return <h3>loading...</h3>
@@ -48,14 +71,22 @@ function App() {
   return (
     <div className="App">
 
-      {!quizStarted ? (
+      {!quizStarted && !showResult && (
         <QuizSetup onStart={handleStart} />
-      ) : (
+      )}
+      {quizStarted && !showResult && (
         <QuestionCard
           options={quiz[currentStep].option}
           question={quiz[currentStep].question}
           callback={handleSubmit}
         />
+      )}
+      {!quizStarted && (
+        <div className="result-box">
+          <h2>🎯 Quiz Finished!</h2>
+          <p>Your Score: <strong>{score}</strong> / {quiz.length}</p>
+          <button onClick={resetQuiz}>Try Again</button>
+        </div>
       )}
 
 

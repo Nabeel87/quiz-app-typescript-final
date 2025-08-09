@@ -1,4 +1,147 @@
-/* .App {
-  text-align: center;
-} */
+/* General Reset */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f6fa;
+}
 
+/* App container */
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Quiz container box */
+.quiz-container {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Heading styles */
+.quiz-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #2d3436;
+}
+
+/* Input fields & selects */
+.quiz-container select,
+.quiz-container input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Options (radio buttons) */
+.option {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.option:hover {
+  background: #f1f2f6;
+}
+
+/* Selected option */
+.option input:checked + label {
+  background: #74b9ff;
+  color: white;
+  border-color: #0984e3;
+}
+
+/* Buttons */
+button {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #0984e3;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #74b9ff;
+}
+
+/* Disabled button */
+button:disabled {
+  background: #b2bec3;
+  cursor: not-allowed;
+}
+
+/* Question text */
+.question-text {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #2d3436;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .quiz-container {
+    padding: 15px;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+.result-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+
+    position: fixed; /* fixed so it stays on top */
+  top: 50%; /* distance from top */
+  left: 50%;
+  transform: translateX(-50%); /* horizontal center */
+  z-index: 999; /* ensure it's above everything */
+}
+
+.result-box h2 {
+  margin-bottom: 15px;
+  color: #2d3436;
+}
+
+.result-box p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.result-box button {
+  background: #0984e3;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.result-box button:hover {
+  background: #74b9ff;
+}
