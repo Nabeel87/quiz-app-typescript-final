@@ -22,16 +22,32 @@ function App() {
     setNumQuestions(questions);
     setDifficulty(level);
     setQuizStarted(true);
-    setShowResult(false);
     console.log('Start quiz with:', questions, level);
     // fetch quiz questions from API here
   };
 
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const question: QuizType[] = await getQuizDetails(numQuestions, difficulty);
+  //     console.log(question);
+  //     setQuiz(question);
+  //   }
+  //   fetchData();
+  // }, [numQuestions, difficulty]);
   useEffect(() => {
     async function fetchData() {
-      const question: QuizType[] = await getQuizDetails(numQuestions, difficulty);
-      console.log(question);
-      setQuiz(question);
+      if (numQuestions > 0 && difficulty) {
+        try {
+          const question: QuizType[] = await getQuizDetails(numQuestions, difficulty);
+          if (!Array.isArray(question) || question.length === 0) {
+            throw new Error("No quiz data received");
+          }
+          setQuiz(question);
+          console.log(question);
+        } catch (error) {
+          console.error("Failed to fetch quiz:", error);
+        }
+      }
     }
     fetchData();
   }, [numQuestions, difficulty]);
@@ -55,8 +71,8 @@ function App() {
       // alert("Quiz Done! Your score is: " + score + " / " + quiz.length);
       console.log("handle submit section, else:  ", currentStep);
       setCurrentStep(0);
-      setScore(0);
-      // setQuizStarted(false);//its set there after quiz score
+      setQuizStarted(false);//its set there after quiz score
+      setShowResult(true);
     }
   }
   const resetQuiz = () => {
@@ -71,6 +87,25 @@ function App() {
   return (
     <div className="App">
 
+      {/* {!showResult ?
+        (
+          !quizStarted ? (
+            <QuizSetup onStart={handleStart} />
+          ) : (
+            <QuestionCard
+              options={quiz[currentStep].option}
+              question={quiz[currentStep].question}
+              callback={handleSubmit}
+            />
+          )
+        ) : (
+          <div className="result-box">
+            <h2>🎯 Quiz Finished!</h2>
+            <p>Your Score: <strong>{score}</strong> / {quiz.length}</p>
+            <button onClick={resetQuiz}>Try Again</button>
+          </div>
+        )} */}
+
       {!quizStarted && !showResult && (
         <QuizSetup onStart={handleStart} />
       )}
@@ -81,7 +116,7 @@ function App() {
           callback={handleSubmit}
         />
       )}
-      {!quizStarted && (
+      {showResult && (
         <div className="result-box">
           <h2>🎯 Quiz Finished!</h2>
           <p>Your Score: <strong>{score}</strong> / {quiz.length}</p>

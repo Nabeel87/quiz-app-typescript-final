@@ -44,7 +44,12 @@ const QuestionCard: React.FC<propsQuestionType> = ({
                         </div>
                     )
                 })}
-                <input type="submit" value="Submit" />
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                    Submit
+                </button>
             </form>
         </div>
     )

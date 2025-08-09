@@ -5,14 +5,15 @@ const shuffleArray = (array: any[]) =>
 
 export const getQuizDetails = async (totalQuestions: number, level: string): Promise<QuizType[]> => {
     const res = await fetch(`https://opentdb.com/api.php?amount=${totalQuestions}&difficulty=${level}&type=multiple`);
-    let { results } = await res.json();
+    if (!res.ok) throw new Error("Failed to fetch Exam");
+    let data = await res.json();
 
-    // console.log(res);
-    // if (!data.results || !Array.isArray(data.results)) {
-    //     throw new Error("Invalid API response: 'results' is undefined or not an array");
-    // }
+    console.log(res);
+    if (!data.results || !Array.isArray(data.results)) {
+        throw new Error("Invalid API response: 'results' is undefined or not an array");
+    }
 
-    let quiz: QuizType[] = results.map((QuestionObj: QuestionType) => {
+    let quiz: QuizType[] = data.results.map((QuestionObj: QuestionType) => {
         return {
             question: QuestionObj.question,
             answer: QuestionObj.correct_answer,
