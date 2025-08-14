@@ -121,6 +121,7 @@ function App() {
           <h2>🎯 Quiz Finished!</h2>
           <p>Your Score: <strong>{score}</strong> / {quiz.length}</p>
           <button onClick={resetQuiz}>Try Again</button>
+          <small className="credits">Created by Muhammad Nabil</small>
         </div>
       )}
 
