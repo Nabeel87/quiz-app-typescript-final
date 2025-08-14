@@ -22,10 +22,16 @@ const QuestionCard: React.FC<propsQuestionType> = ({
         setSelected("");//its clear section for next question
     };
 
+    const decodeHTML = (html: string) => {
+        const txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
     return (
         <div className="quiz-container">
             <div className="question">
-                {question}
+                {decodeHTML(question)}
             </div>
             <form onSubmit={handleSubmit}>
                 {options.map((opti: string, inde: number) => {
@@ -39,7 +45,7 @@ const QuestionCard: React.FC<propsQuestionType> = ({
                                     checked={selected === opti}
                                     onChange={handleChange}
                                 />
-                                {opti}
+                                {decodeHTML(opti)}
                             </label>
                         </div>
                     )
